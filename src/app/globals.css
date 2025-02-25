@@ -182,3 +182,31 @@
 .content {
   font-family: 'Outfit', sans-serif;
 }
+
+.feed-grid {
+  display: grid;
+  grid-template-columns: 40px auto 40px;
+  grid-template-areas: "prev content next";
+  gap: 2rem;
+}
+
+.grid-prev {
+  grid-area: prev;
+}
+
+.grid-content {
+  grid-area: content;
+}
+
+.grid-next {
+  grid-area: next;
+}
+
+@media (max-width: 768px) {
+  .feed-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 40px auto;
+    grid-template-areas: "prev next" "content content";
+    gap: 1rem;
+  }
+}

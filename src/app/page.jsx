@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { generateStars } from "@/lib/utils";
-import { MoveRight } from "lucide-react";
+import { ArrowLeftCircle, ArrowRightCircle,MoveRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Parser from "rss-parser";
@@ -16,6 +16,7 @@ export default function Page() {
   const [rssFeedLink, setRssFeedLink] = useState("");
   const [rssFeed, setRssFeed] = useState([]);
   const [currentFeedItem, setCurrentFeedItem] = useState(0);
+  const [feedHidden, setFeedHidden] = useState(false);
 
   const rssLinkSchema = z.string().url("Not a valid URL");
 
@@ -28,14 +29,22 @@ export default function Page() {
   useEffect(() => {
     if (rssFeed.length === 0) return;
 
-    let interval = setInterval(() => {
-      setCurrentFeedItem((prevFeedItem) => (prevFeedItem + 1) % rssFeed.length);
-    }, 7500);
+    const interval = setInterval(() => {
+      handleFeedChange(nextFeedItem);
+    }, 10000);
 
     return () => {
       clearInterval(interval);
     };
   }, [rssFeed]);
+
+  const handleFeedChange = (changeFunction) => {
+    setFeedHidden(true);
+    setTimeout(() => {
+      changeFunction();
+      setFeedHidden(false);
+    }, 1250);
+  }
 
   const fetchRssFeed = async () => {
     const validation = rssLinkSchema.safeParse(rssFeedLink);
@@ -64,25 +73,42 @@ export default function Page() {
     }
   }
 
+  const previousFeedItem = () => {
+    if (currentFeedItem === 0) return setCurrentFeedItem(rssFeed.length - 1);
+    setCurrentFeedItem((prevFeedItem) => (prevFeedItem - 1) % rssFeed.length);
+  }
+
+  const nextFeedItem = () => {
+    setCurrentFeedItem((prevFeedItem) => (prevFeedItem + 1) % rssFeed.length);
+  }
+
   return (
     <main className="flex flex-col items-center justify-center w-screen h-screen">
       {
         rssFeed.length > 0 ? (
-          <div className="flex flex-col space-y-4 max-w-3xl">
-            <h1 className="text-4xl font-medium title">
-              {rssFeed[currentFeedItem].title}
-            </h1>
-            <p className="text-2xl font-light content text-neutral-200">
-              {rssFeed[currentFeedItem].content}
-            </p>
-            <Link href={rssFeed[currentFeedItem].link} target="_blank" className="text-base text-white/80">
-              <div className="flex items-center gap-2 hover:gap-4 hover:text-white transition-all duration-200 ease-in-out">
-                <span className="mb-0.5">
-                  Read more
-                </span>
-                <MoveRight className="w-6" />
-              </div>
-            </Link>
+          <div className={`feed-grid px-8 py-4 ${feedHidden ? "opacity-0" : "opacity-100"} transition-all duration-1000 ease-in-out`}>
+            <div className="w-full h-full flex items-center md:justify-center justify-end grid-prev">
+              <ArrowLeftCircle size={36} className={`cursor-pointer text-white/80 transform transition-all duration-1000 ease-in-out hover:text-white ${feedHidden ? "-translate-x-4" : "translate-x-0"}`} onClick={() => handleFeedChange(previousFeedItem)} />
+            </div>
+            <div className="w-full h-full flex items-center md:justify-center justify-start grid-next">
+              <ArrowRightCircle size={36} className={`cursor-pointer text-white/80 transform transition-all duration-1000 ease-in-out hover:text-white ${feedHidden ? "translate-x-4" : "translate-x-0"}`} onClick={() => handleFeedChange(nextFeedItem)} />
+            </div>
+            <div className={`flex flex-col space-y-4 max-w-3xl w-fit grid-content transform transition-all duration-1000 ease-in-out ${feedHidden ? "-translate-x-4" : "translate-x-0"}`}>
+              <h1 className="lg:text-4xl md:text-3xl text-2xl font-medium title">
+                {rssFeed[currentFeedItem].title}
+              </h1>
+              <p className="lg:text-2xl md:text-xl text-lg font-light content text-neutral-200">
+                {rssFeed[currentFeedItem].content}
+              </p>
+              <Link href={rssFeed[currentFeedItem].link} target="_blank" className="text-base text-white/80">
+                <div className="flex items-center gap-2 hover:gap-4 hover:text-white transition-all duration-200 ease-in-out">
+                  <span className="mb-0.5">
+                    Read more
+                  </span>
+                  <MoveRight className="w-6" />
+                </div>
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="flex flex-col space-y-2 items-center">
