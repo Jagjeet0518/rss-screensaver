@@ -159,7 +159,7 @@ export default function Page() {
             <div className="grid grid-cols-2 gap-2 w-full">
               {
                 rssFeeds.map((feed, index) => (
-                  <Button key={index} onClick={() => { setRssFeedLink(feed.link); fetchRssFeed() }} className="w-full">
+                  <Button key={index} onClick={() => { setRssFeedLink(feed.link); }} className="w-full">
                     {feed.title}
                   </Button>
                 ))
