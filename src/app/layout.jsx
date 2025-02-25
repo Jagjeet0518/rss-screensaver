@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
         className={`antialiased sky`}
       >
         {children}
-        <Toaster />
+        <Toaster position="bottom-center" visibleToasts={1} invert richColors />
         <div id="stars" className="stars"></div>
         <div id="stars2" className="stars2"></div>
         <div id="stars3" className="stars3"></div>
