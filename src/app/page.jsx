@@ -93,7 +93,7 @@ export default function Page() {
             <div className="w-full h-full flex items-center md:justify-center justify-start grid-next">
               <ArrowRightCircle size={36} className={`cursor-pointer text-white/80 transform transition-all duration-1000 ease-in-out hover:text-white ${feedHidden ? "translate-x-4" : "translate-x-0"}`} onClick={() => handleFeedChange(nextFeedItem)} />
             </div>
-            <div className={`flex flex-col space-y-4 max-w-3xl w-fit grid-content transform transition-all duration-1000 ease-in-out ${feedHidden ? "-translate-x-4" : "translate-x-0"}`}>
+            <div className={`flex flex-col space-y-4 max-w-3xl w-fit grid-content transform transition-all duration-1000 ease-in-out ${feedHidden ? "md:-translate-x-4 translate-y-4" : "md:translate-x-0 translate-y-0"}`}>
               <h1 className="lg:text-4xl md:text-3xl text-2xl font-medium title">
                 {rssFeed[currentFeedItem].title}
               </h1>
