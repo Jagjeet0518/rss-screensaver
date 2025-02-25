@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# RSS Screensaver
 
-## Getting Started
+A sleek, modern RSS feed screensaver built with Next.js and React. This application fetches and displays RSS feed items with smooth transitions and a starry background, perfect for turning idle screens into informative displays.
 
-First, run the development server:
+![RSS Screensaver Main Screen](https://ik.imagekit.io/snippy/rss-screensaver-main.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![RSS Screensaver Demo](https://ik.imagekit.io/snippy/rss-screensaver-demo.png)  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key Features
+- **Dynamic RSS Fetching**: Enter any valid RSS feed URL to display its content.
+- **Auto-Cycling**: Automatically cycles through feed items every 10 seconds.
+- **Smooth Transitions**: Elegant fade and slide animations for feed changes.
+- **Starry Background**: Randomized starfield effect using CSS custom properties.
+- **Responsive Design**: Adapts seamlessly to different screen sizes.
+- **Error Handling**: User-friendly error messages via toast notifications.
+- **Navigation**: Manual control with previous/next buttons.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Tech Stack
+- **Next.js**: For server-side rendering and routing.
+- **React**: For building the UI and managing state.
+- **Zod**: For URL validation.
+- **RSS-Parser**: To parse RSS feed data.
+- **Tailwind CSS**: For styling.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+Clone the repository:
+   ```bash
+   git clone https://github.com/Jagjeet0518/rss-screensaver.git
+   cd rss-screensaver
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+Install dependencies:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run the development server:
+   ```bash
+   npm run dev
+   ```
+   Open http://localhost:3000 in your browser to see the app in action.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Usage
+ 1. Launch the app.
+ 2. Enter a valid RSS feed URL (e.g., https://example.com/feed).
+ 3. Click "Fetch RSS Feed" to load and display the feed.
+ 4. Use the left/right arrows to navigate manually, or let it auto-cycle every 10 seconds.
 
-## Deploy on Vercel
+## Example RSS Feeds
+- NY Times Technology: https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml
+- Tech Radar: https://www.techradar.com/rss
+- BBC News: http://feeds.bbci.co.uk/news/rss.xml
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+####
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+####
+⭐ If you like this project, give it a star on GitHub!
