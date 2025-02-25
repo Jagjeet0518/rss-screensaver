@@ -109,7 +109,7 @@ export default function Page() {
                 {rssFeed[currentFeedItem].title}
               </h1>
               <p className="lg:text-2xl md:text-xl text-lg font-light content text-neutral-200">
-                {rssFeed[currentFeedItem].content}
+                {rssFeed[currentFeedItem].contentSnippet}
               </p>
               <Link href={rssFeed[currentFeedItem].link} target="_blank" className="text-base text-white/80">
                 <div className="flex items-center gap-2 hover:gap-4 hover:text-white transition-all duration-200 ease-in-out">
