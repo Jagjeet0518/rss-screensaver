@@ -7,9 +7,10 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { generateStars } from "@/lib/utils";
-import { ArrowLeftCircle, ArrowRightCircle, MoveRight } from "lucide-react";
+import { ArrowLeftCircle, ArrowRightCircle, Loader2, MoveRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa6";
 import { toast } from "sonner";
+import he from "he";
 
 const RssParser = new Parser();
 
@@ -18,6 +19,7 @@ export default function Page() {
   const [rssFeed, setRssFeed] = useState([]);
   const [currentFeedItem, setCurrentFeedItem] = useState(0);
   const [feedHidden, setFeedHidden] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const rssLinkSchema = z.string().url("Not a valid URL");
 
@@ -58,6 +60,7 @@ export default function Page() {
   }
 
   const fetchRssFeed = async () => {
+    setIsLoading(true);
     const validation = rssLinkSchema.safeParse(rssFeedLink);
     if (validation.success) {
       try {
@@ -74,6 +77,7 @@ export default function Page() {
           }
         } else {
           toast.error("No contents found in the RSS feed.");
+          setIsLoading(false);
           return;
         }
       } catch (error) {
@@ -82,6 +86,7 @@ export default function Page() {
     } else {
       toast.error("Please enter a valid URL.");
     }
+    setIsLoading(false);
   }
 
   const previousFeedItem = () => {
@@ -106,10 +111,10 @@ export default function Page() {
             </div>
             <div className={`flex flex-col space-y-4 max-w-3xl w-fit grid-content transform transition-all duration-1000 ease-in-out ${feedHidden ? "md:-translate-x-4 md:translate-y-0 translate-y-4" : "md:translate-x-0 md:translate-y-0 translate-y-0"}`}>
               <h1 className="lg:text-4xl md:text-3xl text-2xl font-medium title">
-                {rssFeed[currentFeedItem].title}
+                {he.decode(rssFeed[currentFeedItem].title)}
               </h1>
               <p className="lg:text-2xl md:text-xl text-lg font-light content text-neutral-200">
-                {rssFeed[currentFeedItem].contentSnippet}
+                {he.decode(rssFeed[currentFeedItem].contentSnippet)}
               </p>
               <Link href={rssFeed[currentFeedItem].link} target="_blank" className="text-base text-white/80">
                 <div className="flex items-center gap-2 hover:gap-4 hover:text-white transition-all duration-200 ease-in-out">
@@ -135,7 +140,11 @@ export default function Page() {
               className="border border-white/60 focus:outline-none"
             />
             <Button onClick={fetchRssFeed} className="w-full">
-              Fetch RSS Feed
+              {
+                isLoading ? <span className="animate-spin">
+                  <Loader2 className="w-4 h-4" />
+                </span> : "Fetch RSS Feed"
+              }
             </Button>
           </div>
         )
