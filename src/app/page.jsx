@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { generateStars } from "@/lib/utils";
-import { ArrowLeftCircle, ArrowRightCircle,MoveRight } from "lucide-react";
+import { ArrowLeftCircle, ArrowRightCircle, MoveRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Parser from "rss-parser";
@@ -30,7 +30,17 @@ export default function Page() {
     if (rssFeed.length === 0) return;
 
     const interval = setInterval(() => {
-      handleFeedChange(nextFeedItem);
+      handleFeedChange(async () => {
+        setCurrentFeedItem(async (prevFeedItem) => {
+          const nextIndex = (prevFeedItem + 1) % rssFeed.length;
+          if (nextIndex === 0) {
+            await fetchRssFeed();
+            return 0;
+          } else {
+            return nextIndex;
+          }
+        })
+      });
     }, 10000);
 
     return () => {
@@ -38,10 +48,10 @@ export default function Page() {
     };
   }, [rssFeed]);
 
-  const handleFeedChange = (changeFunction) => {
+  const handleFeedChange = async (changeFunction) => {
     setFeedHidden(true);
-    setTimeout(() => {
-      changeFunction();
+    setTimeout(async () => {
+      await changeFunction();
       setFeedHidden(false);
     }, 1250);
   }
@@ -58,6 +68,7 @@ export default function Page() {
           let rssFeed = await RssParser.parseString(rssString.contents);
           if (rssFeed.items.length > 0) {
             setRssFeed(JSON.parse(JSON.stringify(rssFeed.items)));
+            setCurrentFeedItem(0);
           } else {
             toast.error("No items found in the RSS feed.");
           }
@@ -93,7 +104,7 @@ export default function Page() {
             <div className="w-full h-full flex items-center md:justify-center justify-start grid-next">
               <ArrowRightCircle size={36} className={`cursor-pointer text-white/80 transform transition-all duration-1000 ease-in-out hover:text-white ${feedHidden ? "translate-x-4" : "translate-x-0"}`} onClick={() => handleFeedChange(nextFeedItem)} />
             </div>
-            <div className={`flex flex-col space-y-4 max-w-3xl w-fit grid-content transform transition-all duration-1000 ease-in-out ${feedHidden ? "-translate-x-4" : "translate-x-0"}`}>
+            <div className={`flex flex-col space-y-4 max-w-3xl w-fit grid-content transform transition-all duration-1000 ease-in-out ${feedHidden ? "md:-translate-x-4 md:translate-y-0 translate-y-4" : "md:translate-x-0 md:translate-y-0 translate-y-0"}`}>
               <h1 className="lg:text-4xl md:text-3xl text-2xl font-medium title">
                 {rssFeed[currentFeedItem].title}
               </h1>
