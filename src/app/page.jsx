@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { generateStars } from "@/lib/utils";
-import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
+import { ArrowLeftCircle, ArrowRightCircle, MoveRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa6";
 import { toast } from "sonner";
 
