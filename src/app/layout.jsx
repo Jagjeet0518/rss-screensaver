@@ -3,7 +3,15 @@ import { Toaster } from "sonner";
 
 export const metadata = {
   title: "RSS ScreenSaver",
-  description: "RSS ScreenSaver is a simple RSS reader for the web.",
+  description: "A sleek, modern RSS feed screensaver built with Next.js and React. This application fetches and displays RSS feed items with smooth transitions and a starry background, perfect for turning idle screens into informative displays.",
+  keywords: "RSS, RSS Feed, RSS Screensaver, RSS Feed Screensaver, RSS Feed Viewer",
+  openGraph: {
+    type: "website",
+    url: "https://rss-screensaver.vercel.app/",
+    title: "RSS Screensaver",
+    description: "A sleek, modern RSS feed screensaver built with Next.js and React. This application fetches and displays RSS feed items with smooth transitions and a starry background, perfect for turning idle screens into informative displays.",
+    siteName: "RSS Screensaver",
+  },
 };
 
 export default function RootLayout({ children }) {
