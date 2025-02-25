@@ -1,13 +1,15 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import Parser from "rss-parser";
+import Link from "next/link";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { generateStars } from "@/lib/utils";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
-import { useEffect, useState } from "react";
-import Parser from "rss-parser";
+import { FaGithub } from "react-icons/fa6";
 import { toast } from "sonner";
-import { z } from "zod";
 
 const RssParser = new Parser();
 
@@ -120,8 +122,11 @@ export default function Page() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col space-y-2 items-center">
-            <h1 className="text-4xl font-bold mb-4">RSS Screensaver</h1>
+          <div className="flex flex-col gap-2 items-center">
+            <Link href={"https://github.com/Jagjeet0518/rss-screensaver"} target="_blank" className="text-base text-white">
+              <FaGithub size={32} />
+            </Link>
+            <h1 className="text-4xl font-bold mb-2">RSS Screensaver</h1>
             <p className="text-sm text-white/80">Enter your RSS feed link</p>
             <Input
               placeholder="https://example.com/feed"
