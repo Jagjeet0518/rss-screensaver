@@ -14,6 +14,13 @@ import he from "he";
 
 const RssParser = new Parser();
 
+const rssFeeds = [
+  { title: "NY Times Tech", link: "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml" },
+  { title: "Tech Radar", link: "https://www.techradar.com/rss" },
+  { title: "Y Combinator", link: "https://www.ycombinator.com/rss" },
+  { title: "Sam Altman", link: "http://blog.samaltman.com/posts.atom" }
+]
+
 export default function Page() {
   const [rssFeedLink, setRssFeedLink] = useState("");
   const [rssFeed, setRssFeed] = useState([]);
@@ -114,7 +121,7 @@ export default function Page() {
                 {he.decode(rssFeed[currentFeedItem].title)}
               </h1>
               <p className="lg:text-2xl md:text-xl text-lg font-light content text-neutral-200">
-                {he.decode(rssFeed[currentFeedItem].contentSnippet)}
+                {he.decode(rssFeed[currentFeedItem].contentSnippet.length > 400 ? rssFeed[currentFeedItem].contentSnippet.substring(0, 400) + "..." : rssFeed[currentFeedItem].contentSnippet)}
               </p>
               <Link href={rssFeed[currentFeedItem].link} target="_blank" className="text-base text-white/80">
                 <div className="flex items-center gap-2 hover:gap-4 hover:text-white transition-all duration-200 ease-in-out">
@@ -146,6 +153,18 @@ export default function Page() {
                 </span> : "Fetch RSS Feed"
               }
             </Button>
+            <span className="text-sm text-white/80">
+              or try some of these feeds:
+            </span>
+            <div className="grid grid-cols-2 gap-2 w-full">
+              {
+                rssFeeds.map((feed, index) => (
+                  <Button key={index} onClick={() => { setRssFeedLink(feed.link); fetchRssFeed() }} className="w-full">
+                    {feed.title}
+                  </Button>
+                ))
+              }
+            </div>
           </div>
         )
       }
