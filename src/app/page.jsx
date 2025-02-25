@@ -3,8 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { generateStars } from "@/lib/utils";
-import { ArrowLeftCircle, ArrowRightCircle, MoveRight } from "lucide-react";
-import Link from "next/link";
+import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import Parser from "rss-parser";
 import { toast } from "sonner";
@@ -30,11 +29,11 @@ export default function Page() {
     if (rssFeed.length === 0) return;
 
     const interval = setInterval(() => {
-      handleFeedChange(async () => {
-        setCurrentFeedItem(async (prevFeedItem) => {
+      handleFeedChange(() => {
+        setCurrentFeedItem((prevFeedItem) => {
           const nextIndex = (prevFeedItem + 1) % rssFeed.length;
           if (nextIndex === 0) {
-            await fetchRssFeed();
+            fetchRssFeed();
             return 0;
           } else {
             return nextIndex;
@@ -50,8 +49,8 @@ export default function Page() {
 
   const handleFeedChange = async (changeFunction) => {
     setFeedHidden(true);
-    setTimeout(async () => {
-      await changeFunction();
+    setTimeout(() => {
+      changeFunction();
       setFeedHidden(false);
     }, 1250);
   }
@@ -68,7 +67,6 @@ export default function Page() {
           let rssFeed = await RssParser.parseString(rssString.contents);
           if (rssFeed.items.length > 0) {
             setRssFeed(JSON.parse(JSON.stringify(rssFeed.items)));
-            setCurrentFeedItem(0);
           } else {
             toast.error("No items found in the RSS feed.");
           }
